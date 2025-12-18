@@ -3,7 +3,7 @@ import seaborn as sns
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import os
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
@@ -15,9 +15,11 @@ st.set_page_config("Linear Regression ", layout="centered")
 
 #Load css#
 
-def load_css(file):
-    with open(file) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html = True)
+def load_css(filename):
+    css_path = os.path.join(os.path.dirname(__file__), filename)
+    with open(css_path) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
         
 load_css("style.css")
 
@@ -112,5 +114,13 @@ bill = st.slider(
 )
 
 tip = model.predict(scaler.transform([[bill]]))[0]
-st.markdown(f'<div class = "prediction_box"> Predicted Tip: {tip:.2f} </div>',unsafe_allow_html=True)
+
 st.markdown('</div>',unsafe_allow_html=True)
+
+
+st.markdown(f"""
+<div class="prediction-hero">
+  <div class="label">Predicted Tip</div>
+  <div class="value">₹ {tip:.2f}</div>
+</div>
+""", unsafe_allow_html=True)
